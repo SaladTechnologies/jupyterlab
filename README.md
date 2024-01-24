@@ -94,9 +94,7 @@ export JUPYTERLAB_PW=*****************
 
 export AZURE_CONTAINER_URL=https://storage_account_name.blob.core.windows.net/contaienr_name
 
-export AZURE_BLOB_SAS_TOKEN='*****************' 
-
-Need the quotation marks or double quotation marks here because it contains many equal signs.
+export AZURE_BLOB_SAS_TOKEN='*****************' # Need the quotation marks or double quotation marks here because it contains many equal signs.
 
 docker run --rm --gpus all -p 8000:8000 -it
 --env JUPYTERLAB_PW=$JUPYTERLAB_PW
@@ -106,9 +104,7 @@ YOUR_DOCKERHUB_USERNAME/jupyterlab:1.0.0
 ### GCP as the backend storage
 export JUPYTERLAB_PW=*****************
 
-export GOOGLE_APPLICATION_CREDENTIALS=$(cat *****************.json) 
-
-The json file contains the key of service account downloaded from GCP
+export GOOGLE_APPLICATION_CREDENTIALS=$(cat *****************.json) # The json file contains the key of service account downloaded from GCP.
 
 export GOOGLE_BUCKET_FOLDER=BUCKETNAME/FOLDER_NAME
 
@@ -120,7 +116,7 @@ docker run --rm --gpus all -p 8000:8000 -it
 --env GOOGLE_BUCKET_FOLDER=$GOOGLE_BUCKET_FOLDER --env GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID
 YOUR_DOCKERHUB_USERNAME/jupyterlab:1.0.0
 
-Nneed the double quotation marks here because it contains a complex JSON data structure.
+Need the double quotation marks because $GOOGLE_APPLICATION_CREDENTIALS contains a complex JSON data structure.
 
 ## Run the JupyterLab images on SaladCloud
 To run a JupyterLab instance on SaladCloud, you can Log in the SaladCloud Console and deploy the JupyterLab instance by selecting 'Deploy a Container Group' with the following parameters:
@@ -137,7 +133,7 @@ GPU: RTX 1650 (4 GB), RTX 2080 (8 GB), RTX 3060 (12 GB) or others # You can choo
 
 Networking: Enable, Port 8000, No Use Authentication 
 
-Environment Variables, provide the corresponding environment variables based on your needs.
+Environment Variables # Provide the corresponding environment variables based on your needs.
 
 SaladCloud would take a few minutes to download the image to the selected node and run the container. Using the SaladCloud Console, you can determine whether the JupyterLab instance is ready to use.
 
