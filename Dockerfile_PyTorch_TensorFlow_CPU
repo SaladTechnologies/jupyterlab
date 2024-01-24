@@ -6,7 +6,7 @@ RUN pip install torch torchvision torchaudio --index-url https://download.pytorc
 Run pip install tensorflow
 
 # Install inotify-tools to monitor changes
-RUN apt-get -y update && apt -y install inotify-tools
+RUN apt-get -y update && apt -y install inotify-tools curl
 
 # Install AWS CLI (removed if unnecessary)
 RUN apt -y install unzip
@@ -18,7 +18,7 @@ COPY azcopy_linux_amd64_10.22.2.tar.gz /usr/local/bin/azcopy_linux_amd64.tar.gz
 RUN cd /usr/local/bin && tar --strip-components=1 --exclude=*.txt -xf azcopy_linux_amd64.tar.gz && rm azcopy_linux_amd64.tar.gz
 
 # Install GCP CLI (removed if unnecessary)
-COPY google-cloud-cli-459.0.0-linux-x86_64.tar.gz /usr/local/google-cloud-cli.tar.gz
+RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-461.0.0-linux-x86_64.tar.gz > /usr/local/google-cloud-cli.tar.gz
 RUN cd /usr/local && tar -xf google-cloud-cli.tar.gz && rm google-cloud-cli.tar.gz
 ENV PATH $PATH:/usr/local/google-cloud-sdk/bin
 
