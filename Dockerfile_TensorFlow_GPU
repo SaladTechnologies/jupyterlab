@@ -1,0 +1,63 @@
+# The base image for TensorFlow GPU
+FROM tensorflow/tensorflow:2.13.0-gpu
+
+# Install inotify-tools to monitor changes
+RUN apt-get -y update && apt -y install inotify-tools
+
+# Install AWS CLI (removed if unnecessary)
+RUN apt -y install unzip
+COPY awscli-bundle-1.32.0.zip /usr/local/bin/awscli-bundle.zip
+RUN cd /usr/local/bin && unzip awscli-bundle.zip && rm awscli-bundle.zip && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && rm -r awscli-bundle
+
+# Install Azure AzCopy CLI (removed if unnecessary)
+COPY azcopy_linux_amd64_10.22.2.tar.gz /usr/local/bin/azcopy_linux_amd64.tar.gz
+RUN cd /usr/local/bin && tar --strip-components=1 --exclude=*.txt -xf azcopy_linux_amd64.tar.gz && rm azcopy_linux_amd64.tar.gz
+
+# Install GCP CLI (removed if unnecessary)
+COPY google-cloud-cli-459.0.0-linux-x86_64.tar.gz /usr/local/google-cloud-cli.tar.gz
+RUN cd /usr/local && tar -xf google-cloud-cli.tar.gz && rm google-cloud-cli.tar.gz
+ENV PATH $PATH:/usr/local/google-cloud-sdk/bin
+
+# Install JupyterLab
+RUN pip install jupyterlab
+RUN pip install ipywidgets
+
+# Install HuggingFace
+RUN pip install transformers
+RUN pip install datasets
+#RUN pip install accelerate, for Distributed Training using PyTorch
+
+# Tokenizer and Detokenizer
+RUN pip install sentencepiece
+
+# Install the AutoAWQ to support the quantized models - PyTorch GPU
+#RUN pip install https://github.com/casper-hansen/AutoAWQ/releases/download/v0.1.6/autoawq-0.1.6+cu118-cp310-cp310-linux_x86_64.whl
+
+# Install additional libraries and dependencies to special needs
+RUN pip install matplotlib
+
+
+# Generate the Jupyterlab configuration file
+RUN jupyter lab --generate-config
+
+# The target directory for data persistence
+ENV target_dir /root/data
+
+# Set the current working directory
+RUN mkdir -p /root/data
+COPY examples /root/data/examples
+WORKDIR /root/data
+
+# Some useful tools
+COPY tools.ipynb /root/data/tools.ipynb
+
+# Copy the shell file
+COPY start.sh /root/start.sh
+RUN chmod +x /root/start.sh
+
+# The TCP port for the JupyerLab service
+EXPOSE 8000
+
+# Execute the script file when the container is running
+RUN touch /root/welcome.txt.backup && echo "Image: JupyterLab + TensorFlow GPU" >> /root/welcome.txt.backup
+CMD /root/start.sh
