@@ -37,6 +37,9 @@ Following this, the script continuously monitors the /root/data directory, and a
 
 Models and datasets that are dynamically downloaded from Hugging Face or TensorFlow Hub are stored in the /root/.cache or /root/.keras hidden folders; and these data will be not synchronized to the cloud platform unless they are explicitly saved into the /root/data directory.
 
+For more information on how these images are built and integrated with public cloud providers, please refer to the guide: 
+https://docs.salad.com/docs/jupyterlab
+
 For utilizing these images, specific environment variables are required to pass information to containers.
 The Cloud-related environment variables can be omitted if data persistence is not required.
 
