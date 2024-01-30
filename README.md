@@ -29,8 +29,6 @@ For Azure, you can create a container inside a storage account, and generate the
 
 For GCP, you can provision a Cloud Storage bucket and a folder inside the bucket, and create a service account taking the Storage Admin role to access the bucket.
 
-We will soon provide detailed information on the cloud storage provision and some best practices.
-
 To preserve data, we create a folder named 'data' within the /root directory of the container, acting as the current working directory that needs the data persistence.
 During the initial launch of the instance, the script file named ‘start.sh’ is executed, and all data is synchronized from the chosen cloud platform to the /root/data directory by use of Cloud-specific CLIs and credentials.
 Following this, the script continuously monitors the /root/data directory, and any changes (create, delete or modify) in this directory or its subfolders trigger the synchronization back to the cloud.
